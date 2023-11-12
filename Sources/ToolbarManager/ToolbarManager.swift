@@ -7,10 +7,6 @@ import Combine
 @MainActor
 public class ToolbarManager: ObservableObject {
 
-    fileprivate struct ToolbarStates: OptionSet {
-        let rawValue: Int
-    }
-
     internal typealias Stream = PassthroughSubject<ToolbarEvent, Never>
 
     @MainActor
@@ -18,15 +14,15 @@ public class ToolbarManager: ObservableObject {
 
     @MainActor
     @AppStorage("TAS.ToolbarManager.states")
-    private var states = ToolbarStates()
+    private var states = Set<String>()
 
     @MainActor
     @AppStorage("TAS.ToolbarManager.disabled")
-    private var disabled = ToolbarStates()
+    private var disabled = Set<String>()
 
     @MainActor
     @AppStorage("TAS.ToolbarManager.invisible")
-    private var invisible = ToolbarStates()
+    private var invisible = Set<String>()
 
     public init() { }
 
@@ -185,19 +181,5 @@ public class ToolbarManager: ObservableObject {
                 self?.set(item, to: $0)
             }
         )
-    }
-}
-
-private extension ToolbarManager.ToolbarStates {
-    func containsElement(_ member: any ToolbarElement) -> Bool {
-        contains(Self(rawValue: member.powerOfTwo))
-    }
-
-    mutating func insertElement(_ newMember: any ToolbarElement) {
-        insert(Self(rawValue: newMember.powerOfTwo))
-    }
-
-    mutating func removeElement(_ newMember: any ToolbarElement) {
-        remove(Self(rawValue: newMember.powerOfTwo))
     }
 }

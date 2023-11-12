@@ -4,13 +4,7 @@
 import Foundation
 
 public protocol ToolbarElement: RawRepresentable, Equatable {
-    var rawValue: Int { get }
-}
-
-public extension ToolbarElement {
-    var powerOfTwo: Int {
-        Int(pow(2.0, Double(rawValue + 1)))
-    }
+    var rawValue: String { get }
 }
 
 public enum ToolbarInteraction: Hashable {
